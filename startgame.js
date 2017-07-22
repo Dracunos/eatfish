@@ -1,0 +1,1 @@
+document.getElementById("blah").onclick = function() {startGame()};
