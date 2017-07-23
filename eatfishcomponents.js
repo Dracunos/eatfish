@@ -8,7 +8,7 @@ ECS.Components.Size = function componentSize(value) {
 ECS.Components.Size.prototype.name = "size";
 
 ECS.Components.Color = function componentColor(color) {
-    color = "yellow";
+    color = "#ff6633";
     this.value = color;
     return this;
 };

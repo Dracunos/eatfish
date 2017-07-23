@@ -9,7 +9,7 @@ ECS.Systems.Draw = function systemDraw(entities) {
     clearCanvas();
     
     for (var eid in entities) {
-        entity = entities[eid];
+        var entity = entities[eid];
         context.fillStyle = entity.components["color"].value;
         context.beginPath();
         context.arc(entity.components["position"].x,
@@ -22,17 +22,24 @@ ECS.Systems.Draw = function systemDraw(entities) {
 
 ECS.Systems.Move = function systemMove(entities) {
     for (var eid in entities) {
-        entity = entities[eid];
-        entity.components["position"].x += entity.components["vector"].x;
-        entity.components["position"].y += entity.components["vector"].y;
-        entity.components["vector"].x *= 0.8;
-        entity.components["vector"].y *= 0.8;
+        var entity = entities[eid];
+        var pos = entity.components["position"];
+        var vect = entity.components["vector"];
+        pos.x += vect.x;
+        if (0 > pos.x) {pos.x = canvas.width;}
+        else if (canvas.width < pos.x) {pos.x = 0;}
+        pos.y += vect.y;
+        if (0 > pos.y) {pos.y = canvas.height;}
+        else if (canvas.height < pos.y) {pos.y = 0;}
+        // strong deceleration instead of instantly stopping
+        vect.x *= 0.8;
+        vect.y *= 0.8;
     }
 };
 
 ECS.Systems.Input = function systemInput(entities) {
     for (var eid in entities) {
-        entity = entities[eid];
+        var entity = entities[eid];
         keys = ECS.Systems.Input.keys;
         vector = entity.components["vector"]
         if (keys && keys[37] && vector.x > -3) {
