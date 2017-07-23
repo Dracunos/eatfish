@@ -35,7 +35,6 @@ ECS.Systems.Input = function systemInput(entities) {
         entity = entities[eid];
         keys = ECS.Systems.Input.keys;
         vector = entity.components["vector"]
-        console.log(vector);
         if (keys && keys[37] && vector.x > -3) {
             vector.x -= 0.5;
         }
