@@ -8,7 +8,7 @@ ECS.Components.Size = function componentSize(value) {
 ECS.Components.Size.prototype.name = "size";
 
 ECS.Components.Color = function componentColor(color) {
-    color = "#ff6633";
+    color = color || "#ff6633";
     this.value = color;
     return this;
 };
@@ -29,3 +29,13 @@ ECS.Components.Vector = function componentVector(vector) {
     return this;
 };
 ECS.Components.Vector.prototype.name = "vector";
+
+ECS.Components.PlayerControl = function componentPlayerControl(bool) {
+    if (bool === false) {
+        this.value = false;
+    } else {
+        this.value = true;
+    }
+    return this;
+};
+ECS.Components.PlayerControl.prototype.name = "playerControl";

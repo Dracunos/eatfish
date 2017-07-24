@@ -14,6 +14,7 @@ function startGame() {
     entity.addComponent(new ECS.Components.Color());
     entity.addComponent(new ECS.Components.Position([canvas.width/2, canvas.height/2]));
     entity.addComponent(new ECS.Components.Vector([0, 0]));
+    entity.addComponent(new ECS.Components.PlayerControl(true));
     ECS.Entities[entity.id] = entity;
     
     gameLoop();

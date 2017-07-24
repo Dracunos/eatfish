@@ -40,6 +40,12 @@ ECS.Systems.Move = function systemMove(entities) {
 ECS.Systems.Input = function systemInput(entities) {
     for (var eid in entities) {
         var entity = entities[eid];
+        var playerCtl = entity.components["playerControl"]
+        if (!playerCtl){
+            continue;
+        } else if (!playerCtl.value) {
+            continue;
+        }
         keys = ECS.Systems.Input.keys;
         vector = entity.components["vector"]
         if (keys && keys[37] && vector.x > -3) {
