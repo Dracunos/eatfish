@@ -20,6 +20,20 @@ ECS.Systems.Draw = function systemDraw(entities) {
     }
 };
 
+function checkCollision(id, entities) {
+    for (var eid in entities) {
+        if (id == eid) {continue;}
+        if (entityTooClose(entities[id], entities[eid], -1)) {
+            collide(id, eid);
+        }
+    }
+}
+
+function collide(eid1, eid2) {
+    delete ECS.Entities[eid1];
+    delete ECS.Entities[eid2];
+}
+
 ECS.Systems.Move = function systemMove(entities) {
     for (var eid in entities) {
         var entity = entities[eid];
@@ -34,6 +48,7 @@ ECS.Systems.Move = function systemMove(entities) {
             if (0 > pos.y) {pos.y = canvas.height;}
             else if (canvas.height < pos.y) {pos.y = 0;}
         }
+        checkCollision(eid, entities);
         // strong deceleration instead of instantly stopping
         vect.x *= 0.8;
         vect.y *= 0.8;

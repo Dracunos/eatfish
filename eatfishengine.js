@@ -8,7 +8,7 @@ function entityDistance(entity1, entity2) {
     return checkDistance(entity1.components.position, entity2.components.position);
 }
 
-function entitySpawnTooClose(entity1, entity2, buffer) {
+function entityTooClose(entity1, entity2, buffer) {
     if (buffer === undefined) {
         buffer = 0;
     }
@@ -34,7 +34,7 @@ function spawnEnemies(number, minSize, maxSize) {
             entity.addComponent(new ECS.Components.Position([Math.random() * canvas.width, Math.random() * canvas.height]));
             entity.addComponent(new ECS.Components.Vector([0, 0]));
             for (var eid in ECS.Entities) {
-                if (entitySpawnTooClose(ECS.Entities[eid], entity, 15)) {
+                if (entityTooClose(ECS.Entities[eid], entity, 15)) {
                     goodPlacement = false;
                 }
             }
