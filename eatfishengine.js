@@ -48,15 +48,15 @@ function spawnEnemies(number, minSize, maxSize) {
     }
 }
 
+var systems = [ECS.Systems.Input, ECS.Systems.Move, ECS.Systems.Draw];
+ECS.Entities = {};
+
 function gameLoop() {
     for (var i=0; i < systems.length; i++){
         systems[i](ECS.Entities);
     }
     requestAnimationFrame(gameLoop);
 }
-
-var systems = [ECS.Systems.Input, ECS.Systems.Move, ECS.Systems.Draw];
-ECS.Entities = {};
 
 function startGame() {
     var entity = new ECS.Entity();
