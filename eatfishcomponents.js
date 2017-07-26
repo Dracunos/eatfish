@@ -39,3 +39,13 @@ ECS.Components.PlayerControl = function componentPlayerControl(bool) {
     return this;
 };
 ECS.Components.PlayerControl.prototype.name = "playerControl";
+
+ECS.Components.Dead = function componentDead(bool) {
+    if (bool === false) {
+        this.value = false;
+    } else {
+        this.value = true;
+    }
+    return this;
+};
+ECS.Components.Dead.prototype.name = "dead";

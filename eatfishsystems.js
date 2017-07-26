@@ -30,8 +30,8 @@ function checkCollision(id, entities) {
 }
 
 function collide(eid1, eid2) {
-    delete ECS.Entities[eid1];
-    delete ECS.Entities[eid2];
+    ECS.Entities[eid1].addComponent(new ECS.Components.Dead());
+    ECS.Entities[eid2].addComponent(new ECS.Components.Dead());
 }
 
 ECS.Systems.Move = function systemMove(entities) {
@@ -52,6 +52,15 @@ ECS.Systems.Move = function systemMove(entities) {
         // strong deceleration instead of instantly stopping
         vect.x *= 0.8;
         vect.y *= 0.8;
+    }
+};
+
+ECS.Systems.Kill = function systemKill(entities) {
+    for (var eid in entities) {
+        var entity = entities[eid];
+        if (entity.components.dead && entity.components.dead.value) {
+            delete ECS.Entities[entity.id];
+        }
     }
 };
 

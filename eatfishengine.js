@@ -30,7 +30,7 @@ function spawnEnemies(number, minSize, maxSize) {
             goodPlacement = true;
             entity = new ECS.Entity();
             entity.addComponent(new ECS.Components.Size(Math.floor(Math.random() * (maxSize - minSize + 1) + minSize)));
-            entity.addComponent(new ECS.Components.Color());
+            entity.addComponent(new ECS.Components.Color("blue"));
             entity.addComponent(new ECS.Components.Position([Math.random() * canvas.width, Math.random() * canvas.height]));
             entity.addComponent(new ECS.Components.Vector([0, 0]));
             for (var eid in ECS.Entities) {
@@ -48,7 +48,7 @@ function spawnEnemies(number, minSize, maxSize) {
     }
 }
 
-var systems = [ECS.Systems.Input, ECS.Systems.Move, ECS.Systems.Draw];
+var systems = [ECS.Systems.Input, ECS.Systems.Move, ECS.Systems.Kill, ECS.Systems.Draw];
 ECS.Entities = {};
 
 function gameLoop() {
