@@ -5,6 +5,7 @@ function clearCanvas() {
     context.clearRect(0, 0, canvas.width, canvas.height);
 }
 
+// TODO: center view on player, create much larger playable area
 ECS.Systems.Draw = function systemDraw(entities) {
     clearCanvas();
     
@@ -23,15 +24,26 @@ ECS.Systems.Draw = function systemDraw(entities) {
 function checkCollision(id, entities) {
     for (var eid in entities) {
         if (id == eid) {continue;}
-        if (entityTooClose(entities[id], entities[eid], -1)) {
-            collide(id, eid);
+        if (entityTooClose(entities[id], entities[eid], 0)) {
+            collide(entities[id], entities[eid]);
         }
     }
 }
 
-function collide(eid1, eid2) {
-    ECS.Entities[eid1].addComponent(new ECS.Components.Dead());
-    ECS.Entities[eid2].addComponent(new ECS.Components.Dead());
+function collide(ent1, ent2) {
+    var larger = ent1;
+    var smaller = ent2;
+    if (ent1.components.size.value < ent2.components.size.value) {
+        larger = ent2;
+        smaller = ent1;
+    } else if (ent1.components.size.value == ent2.components.size.value){
+        if (Math.random() > 0.5) {
+            larger = ent2;
+            smaller = ent2;
+        }
+    }
+    smaller.addComponent(new ECS.Components.Dead());
+    larger.components.size.value += smaller.components.size.value * 0.15;
 }
 
 ECS.Systems.Move = function systemMove(entities) {
