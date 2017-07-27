@@ -5,16 +5,17 @@ function clearCanvas() {
     context.clearRect(0, 0, canvas.width, canvas.height);
 }
 
-// TODO: center view on player, create much larger playable area
 ECS.Systems.Draw = function systemDraw(entities) {
     clearCanvas();
+    var xOffset = gameLevel.centerPos.x - canvas.width / 2;
+    var yOffset = gameLevel.centerPos.y - canvas.height / 2;
     
     for (var eid in entities) {
         var entity = entities[eid];
         context.fillStyle = entity.components.color.value;
         context.beginPath();
-        context.arc(entity.components.position.x,
-                entity.components.position.y,
+        context.arc(entity.components.position.x - xOffset,
+                entity.components.position.y - yOffset,
                 entity.components.size.value,
                 0,2*Math.PI);
         context.fill();
@@ -51,14 +52,22 @@ ECS.Systems.Move = function systemMove(entities) {
         var entity = entities[eid];
         var pos = entity.components.position;
         var vect = entity.components.vector;
+        var size = entity.components.size.value;
         pos.x += vect.x;
         pos.y += vect.y;
-        var playerCtl = entity.components.playerControl;
-        if (playerCtl && playerCtl.value) { // Only player movement wraps around screen
-            if (0 > pos.x) {pos.x = canvas.width;}
-            else if (canvas.width < pos.x) {pos.x = 0;}
-            if (0 > pos.y) {pos.y = canvas.height;}
-            else if (canvas.height < pos.y) {pos.y = 0;}
+        var levelSize = gameLevel.levelSize;
+        if (pos.x < 0 + size) { // Left bounding
+            pos.x = 0 + size;
+        } else if (pos.x > levelSize.width - size) { // Right bounding
+            pos.x = levelSize.width - size;
+        }
+        if (pos.y < 0 + size) { // Top bounding
+            pos.y = 0 + size;
+        } else if (pos.y > levelSize.height - size) { // Bottom bounding
+            pos.y = levelSize.height - size;
+        }
+        if (entity.components.playerControl && entity.components.playerControl.value) {
+            gameLevel.updateCenter(pos);
         }
         checkCollision(eid, entities);
         // strong deceleration instead of instantly stopping

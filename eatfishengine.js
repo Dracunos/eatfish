@@ -1,3 +1,7 @@
+function randomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
 function checkDistance(pos1, pos2) {
     var a = Math.abs(pos1.x - pos2.x);
     var b = Math.abs(pos1.y - pos2.y);
@@ -26,12 +30,16 @@ function spawnEnemies(number, minSize, maxSize) {
         var goodPlacement = false;
         var attempts = 0;
         var maxAttempts = 500;
+        var levelSize = gameLevel.levelSize;
         while (!goodPlacement && attempts < maxAttempts) {
             goodPlacement = true;
             entity = new ECS.Entity();
-            entity.addComponent(new ECS.Components.Size(Math.floor(Math.random() * (maxSize - minSize + 1) + minSize)));
+            var entitySize = randomInt(minSize, maxSize);
+            entity.addComponent(new ECS.Components.Size(entitySize));
             entity.addComponent(new ECS.Components.Color("blue"));
-            entity.addComponent(new ECS.Components.Position([Math.random() * canvas.width, Math.random() * canvas.height]));
+            var entityX = randomInt(entitySize + 5, levelSize.width - entitySize - 5);
+            var entityY = randomInt(entitySize + 5, levelSize.height - entitySize - 5);
+            entity.addComponent(new ECS.Components.Position([entityX, entityY]));
             entity.addComponent(new ECS.Components.Vector([0, 0]));
             for (var eid in ECS.Entities) {
                 if (entityTooClose(ECS.Entities[eid], entity, 15)) {
@@ -62,9 +70,10 @@ function startGame() {
     var entity = new ECS.Entity();
     entity.addComponent(new ECS.Components.Size(5));
     entity.addComponent(new ECS.Components.Color());
-    entity.addComponent(new ECS.Components.Position([canvas.width/2, canvas.height/2]));
+    entity.addComponent(new ECS.Components.Position([gameLevel.levelSize.width / 2, gameLevel.levelSize.height / 2]));
     entity.addComponent(new ECS.Components.Vector([0, 0]));
     entity.addComponent(new ECS.Components.PlayerControl(true));
+    gameLevel.updateCenter(entity.components.position);
     ECS.Entities[entity.id] = entity;
     
     spawnEnemies(10, 2, 4);
