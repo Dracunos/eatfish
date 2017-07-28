@@ -94,16 +94,16 @@ ECS.Systems.Input = function systemInput(entities) {
         keys = ECS.Systems.Input.keys;
         vector = entity.components.vector;
         if (keys && keys[37] && vector.x > -3) {
-            vector.x -= 0.5;
+            vector.x -= 1;
         }
         if (keys && keys[39] && vector.x < 3) {
-            vector.x += 0.5;
+            vector.x += 1;
         }
         if (keys && keys[38] && vector.y > -3) {
-            vector.y -= 0.5;
+            vector.y -= 1;
         }
         if (keys && keys[40] && vector.y < 3) {
-            vector.y += 0.5;
+            vector.y += 1;
         }
     }
 };
@@ -147,16 +147,16 @@ ECS.Systems.AI = function systemAI(entities) {
         if (!closestEnt) {
             continue;
         }
-        if (closestEnt[0] > 100) {
+        if (closestEnt[0] > 200) {
             continue;
         }
         var vect;
         if (entity.components.size.value > closestEnt[1].components.size.value) {
-            vect = getVector(entity.components.position, closestEnt[1].components.position, 0.02);
+            vect = getVector(entity.components.position, closestEnt[1].components.position, 0.015);
             entity.components.vector.x = vect.x;
             entity.components.vector.y = vect.y;
         } else {
-            vect = getVector(entity.components.position, closestEnt[1].components.position, 0.025);
+            vect = getVector(entity.components.position, closestEnt[1].components.position, 0.02);
             entity.components.vector.x = -vect.x;
             entity.components.vector.y = -vect.y;
         }

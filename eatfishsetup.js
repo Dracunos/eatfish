@@ -1,5 +1,7 @@
 var ECS = {};
 var canvas = document.getElementById("display");
+canvas.width = 1000;
+canvas.height = 500;
 
 function checkVal(val, funcName) {
     if (val === undefined) {throw funcName + " given no value";}
@@ -7,7 +9,7 @@ function checkVal(val, funcName) {
 
 var gameLevel = {
     centerPos: {x: 0, y: 0},
-    levelSize: {width: 1000, height: 800}
+    levelSize: {width: 5000, height: 2500}
 };
 
 gameLevel.updateCenter = function updateCenter(pos) {
