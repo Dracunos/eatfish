@@ -118,6 +118,16 @@ window.addEventListener('keyup', function (e) {
     ECS.Systems.Input.keys[e.keyCode] = (e.type == "keydown");            
 });
 
+ECS.Systems.AI = function systemAI(entities) {
+    for (var eid in entities) {
+        var entity = entities[eid];
+        if (hasComponent(entity, 'playerControl')) {
+            continue;
+        }
+        
+    }
+};
+
 
 
 
