@@ -57,16 +57,24 @@ function spawnEnemies(number, minSize, maxSize) {
 }
 
 var systems = [ECS.Systems.Input, ECS.Systems.AI, ECS.Systems.Move, ECS.Systems.Kill, ECS.Systems.Draw];
-ECS.Entities = {};
+var animationFrameId;
 
 function gameLoop() {
     for (var i=0; i < systems.length; i++){
         systems[i](ECS.Entities);
     }
-    requestAnimationFrame(gameLoop);
+    animationFrameId = requestAnimationFrame(gameLoop);
 }
 
 function startGame() {
+    if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+    }
+    ECS.Entities = {};
+    // Numbers to be used as ids
+    ECS.Entity.prototype.idNum = 0;
+    // Entity count
+    ECS.Entity.prototype._count = 0;
     var entity = new ECS.Entity();
     entity.addComponent(new ECS.Components.Size(5));
     entity.addComponent(new ECS.Components.Color());
