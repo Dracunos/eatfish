@@ -56,7 +56,7 @@ function spawnEnemies(number, minSize, maxSize) {
     }
 }
 
-var systems = [ECS.Systems.Input, ECS.Systems.Move, ECS.Systems.Kill, ECS.Systems.Draw];
+var systems = [ECS.Systems.Input, ECS.Systems.AI, ECS.Systems.Move, ECS.Systems.Kill, ECS.Systems.Draw];
 ECS.Entities = {};
 
 function gameLoop() {
@@ -76,8 +76,8 @@ function startGame() {
     gameLevel.updateCenter(entity.components.position);
     ECS.Entities[entity.id] = entity;
     
-    spawnEnemies(10, 2, 4);
-    spawnEnemies(6, 6, 10);
+    spawnEnemies(20, 2, 4);
+    spawnEnemies(14, 6, 14);
     
     gameLoop();
 }

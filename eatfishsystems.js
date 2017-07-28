@@ -118,13 +118,48 @@ window.addEventListener('keyup', function (e) {
     ECS.Systems.Input.keys[e.keyCode] = (e.type == "keydown");            
 });
 
+function getVector(posFrom, posTo, vect) {
+    var x = posTo.x - posFrom.x;
+    var y = posTo.y - posFrom.y;
+    return {x: x * vect, y: y * vect};
+}
+
 ECS.Systems.AI = function systemAI(entities) {
     for (var eid in entities) {
         var entity = entities[eid];
         if (hasComponent(entity, 'playerControl')) {
             continue;
         }
-        
+        var closestEnt = undefined;
+        for (var eid2 in entities) {
+            if (eid == eid2){
+                continue;
+            }
+            var distance = entityDistance(entity, entities[eid2]);
+            if (closestEnt === undefined) {
+                closestEnt = [distance, entities[eid2]];
+                continue;
+            }
+            if (distance < closestEnt[0]) {
+                closestEnt = [distance, entities[eid2]];
+            }
+        }
+        if (!closestEnt) {
+            continue;
+        }
+        if (closestEnt[0] > 100) {
+            continue;
+        }
+        var vect;
+        if (entity.components.size.value > closestEnt[1].components.size.value) {
+            vect = getVector(entity.components.position, closestEnt[1].components.position, 0.02);
+            entity.components.vector.x = vect.x;
+            entity.components.vector.y = vect.y;
+        } else {
+            vect = getVector(entity.components.position, closestEnt[1].components.position, 0.025);
+            entity.components.vector.x = -vect.x;
+            entity.components.vector.y = -vect.y;
+        }
     }
 };
 

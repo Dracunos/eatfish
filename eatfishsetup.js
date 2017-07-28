@@ -7,7 +7,7 @@ function checkVal(val, funcName) {
 
 var gameLevel = {
     centerPos: {x: 0, y: 0},
-    levelSize: {width: 500, height: 500}
+    levelSize: {width: 1000, height: 800}
 };
 
 gameLevel.updateCenter = function updateCenter(pos) {
