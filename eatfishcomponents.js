@@ -1,5 +1,12 @@
 ECS.Components = {};
 
+function hasComponent(entity, componentName) {
+    var component = entity.components[componentName];
+    if (component && component.value) {
+        return true;
+    }
+}
+
 ECS.Components.Size = function componentSize(value) {
     checkVal(value, "componentSize");
     this.value = value;

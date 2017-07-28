@@ -66,7 +66,7 @@ ECS.Systems.Move = function systemMove(entities) {
         } else if (pos.y > levelSize.height - size) { // Bottom bounding
             pos.y = levelSize.height - size;
         }
-        if (entity.components.playerControl && entity.components.playerControl.value) {
+        if (hasComponent(entity, 'playerControl')) {
             gameLevel.updateCenter(pos);
         }
         checkCollision(eid, entities);
@@ -79,7 +79,7 @@ ECS.Systems.Move = function systemMove(entities) {
 ECS.Systems.Kill = function systemKill(entities) {
     for (var eid in entities) {
         var entity = entities[eid];
-        if (entity.components.dead && entity.components.dead.value) {
+        if (hasComponent(entity, 'dead')) {
             delete ECS.Entities[entity.id];
         }
     }
@@ -88,10 +88,7 @@ ECS.Systems.Kill = function systemKill(entities) {
 ECS.Systems.Input = function systemInput(entities) {
     for (var eid in entities) {
         var entity = entities[eid];
-        var playerCtl = entity.components.playerControl;
-        if (!playerCtl){
-            continue;
-        } else if (!playerCtl.value) {
+        if (!hasComponent(entity, 'playerControl')){
             continue;
         }
         keys = ECS.Systems.Input.keys;
