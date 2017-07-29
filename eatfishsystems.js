@@ -86,6 +86,7 @@ ECS.Systems.Kill = function systemKill(entities) {
 };
 
 ECS.Systems.Input = function systemInput(entities) {
+    var maxPlayerSpeed = 2.5;
     for (var eid in entities) {
         var entity = entities[eid];
         if (!hasComponent(entity, 'playerControl')){
@@ -93,16 +94,21 @@ ECS.Systems.Input = function systemInput(entities) {
         }
         keys = ECS.Systems.Input.keys;
         vector = entity.components.vector;
-        if (keys && keys[37] && vector.x > -3) {
+        // x^2 + y^2 < 3^2
+        // Normalizing diagonal movement
+        if (Math.pow(vector.x, 2) + Math.pow(vector.y, 2) > Math.pow(maxPlayerSpeed, 2)) {
+            continue;
+        }
+        if (keys && keys[37] && vector.x > -maxPlayerSpeed) { // Left
             vector.x -= 1;
         }
-        if (keys && keys[39] && vector.x < 3) {
+        if (keys && keys[39] && vector.x < maxPlayerSpeed) { // Right
             vector.x += 1;
         }
-        if (keys && keys[38] && vector.y > -3) {
+        if (keys && keys[38] && vector.y > -maxPlayerSpeed) { // Up
             vector.y -= 1;
         }
-        if (keys && keys[40] && vector.y < 3) {
+        if (keys && keys[40] && vector.y < maxPlayerSpeed) { // Down
             vector.y += 1;
         }
     }
@@ -119,9 +125,11 @@ window.addEventListener('keyup', function (e) {
 });
 
 function getVector(posFrom, posTo, vect) {
-    var x = posTo.x - posFrom.x;
-    var y = posTo.y - posFrom.y;
-    return {x: x * vect, y: y * vect};
+    var currentVect = checkDistance(posFrom, posTo);
+    var magnitudeRatio = vect / currentVect;
+    var x = (posTo.x - posFrom.x) * magnitudeRatio;
+    var y = (posTo.y - posFrom.y) * magnitudeRatio;
+    return {x: x, y: y};
 }
 
 ECS.Systems.AI = function systemAI(entities) {
@@ -147,16 +155,16 @@ ECS.Systems.AI = function systemAI(entities) {
         if (!closestEnt) {
             continue;
         }
-        if (closestEnt[0] > 200) {
+        if (closestEnt[0] > 200 + closestEnt[1].components.size.value + entity.components.size.value) {
             continue;
         }
         var vect;
         if (entity.components.size.value > closestEnt[1].components.size.value) {
-            vect = getVector(entity.components.position, closestEnt[1].components.position, 0.015);
+            vect = getVector(entity.components.position, closestEnt[1].components.position, 1.5);
             entity.components.vector.x = vect.x;
             entity.components.vector.y = vect.y;
         } else {
-            vect = getVector(entity.components.position, closestEnt[1].components.position, 0.02);
+            vect = getVector(entity.components.position, closestEnt[1].components.position, 2);
             entity.components.vector.x = -vect.x;
             entity.components.vector.y = -vect.y;
         }

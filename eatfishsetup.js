@@ -1,3 +1,6 @@
+// Started with this example: http://vasir.net/blog/game-development/how-to-build-entity-component-system-in-javascript
+// Thank you for such an easy to understand explanation on ECS.
+
 var ECS = {};
 var canvas = document.getElementById("display");
 canvas.width = 1000;
@@ -9,7 +12,7 @@ function checkVal(val, funcName) {
 
 var gameLevel = {
     centerPos: {x: 0, y: 0},
-    levelSize: {width: 5000, height: 2500}
+    levelSize: {width: 3000, height: 2500}
 };
 
 gameLevel.updateCenter = function updateCenter(pos) {

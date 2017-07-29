@@ -71,9 +71,7 @@ function startGame() {
         cancelAnimationFrame(animationFrameId);
     }
     ECS.Entities = {};
-    // Numbers to be used as ids
     ECS.Entity.prototype.idNum = 0;
-    // Entity count
     ECS.Entity.prototype._count = 0;
     var entity = new ECS.Entity();
     entity.addComponent(new ECS.Components.Size(20));
