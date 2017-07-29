@@ -6,6 +6,19 @@ var canvas = document.getElementById("display");
 canvas.width = 1000;
 canvas.height = 500;
 
+document.getElementById("Taller").onclick = function() {
+    canvas.height += 150;
+}
+document.getElementById("Shorter").onclick = function() {
+    canvas.height -= 150;
+}
+document.getElementById("Wider").onclick = function() {
+    canvas.width += 150;
+}
+document.getElementById("Thinner").onclick = function() {
+    canvas.width -= 150;
+}
+
 function checkVal(val, funcName) {
     if (val === undefined) {throw funcName + " given no value";}
 }
