@@ -19,6 +19,38 @@ document.getElementById("Thinner").onclick = function() {
     canvas.width -= 150;
 }
 
+var maxPlayerSpeed = 2.5;
+var enemySpeed = 1;
+document.onkeypress = function(e) {
+    var evtobj=window.event? event : e //distinguish between IE's explicit event object (window.event) and Firefox's implicit.
+    var unicode=evtobj.charCode? evtobj.charCode : evtobj.keyCode
+    if (unicode >= 33 && unicode <= 36) {
+        e.preventDefault();
+    }
+    if (unicode == 33) { // Page Up increases player speed
+        maxPlayerSpeed += 0.5;
+        document.getElementById("playerSpeed").innerText = maxPlayerSpeed * 10;
+    }
+    if (unicode == 34) { // Page Down decreases player speed
+        maxPlayerSpeed -= 0.5;
+        if (maxPlayerSpeed < 0) {
+            maxPlayerSpeed = 0;
+        }
+        document.getElementById("playerSpeed").innerText = maxPlayerSpeed * 10;
+    }
+    if (unicode == 36) { // Home increases enemy speed
+        enemySpeed += 0.05;
+        document.getElementById("enemySpeed").innerText = enemySpeed.toFixed(2);
+    }
+    if (unicode == 35) { // End decreases enemy speed
+        enemySpeed -= 0.05;
+        if (enemySpeed < 0) {
+            enemySpeed = 0;
+        }
+        document.getElementById("enemySpeed").innerText = enemySpeed.toFixed(2);
+    }
+}
+
 function checkVal(val, funcName) {
     if (val === undefined) {throw funcName + " given no value";}
 }

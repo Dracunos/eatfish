@@ -86,7 +86,6 @@ ECS.Systems.Kill = function systemKill(entities) {
 };
 
 ECS.Systems.Input = function systemInput(entities) {
-    var maxPlayerSpeed = 2.5;
     for (var eid in entities) {
         var entity = entities[eid];
         if (!hasComponent(entity, 'playerControl')){
@@ -100,16 +99,16 @@ ECS.Systems.Input = function systemInput(entities) {
             continue;
         }
         if (keys && keys[37] && vector.x > -maxPlayerSpeed) { // Left
-            vector.x -= 1;
+            vector.x -= maxPlayerSpeed / 2.5;
         }
         if (keys && keys[39] && vector.x < maxPlayerSpeed) { // Right
-            vector.x += 1;
+            vector.x += maxPlayerSpeed / 2.5;
         }
         if (keys && keys[38] && vector.y > -maxPlayerSpeed) { // Up
-            vector.y -= 1;
+            vector.y -= maxPlayerSpeed / 2.5;
         }
         if (keys && keys[40] && vector.y < maxPlayerSpeed) { // Down
-            vector.y += 1;
+            vector.y += maxPlayerSpeed / 2.5;
         }
     }
 };
@@ -163,11 +162,11 @@ ECS.Systems.AI = function systemAI(entities) {
         }
         var vect;
         if (entity.components.size.value > closestEnt[1].components.size.value) {
-            vect = getVector(entity.components.position, closestEnt[1].components.position, 1.5);
+            vect = getVector(entity.components.position, closestEnt[1].components.position, 1.5 * enemySpeed);
             entity.components.vector.x = vect.x;
             entity.components.vector.y = vect.y;
         } else {
-            vect = getVector(entity.components.position, closestEnt[1].components.position, 2);
+            vect = getVector(entity.components.position, closestEnt[1].components.position, 2 * enemySpeed);
             entity.components.vector.x = -vect.x;
             entity.components.vector.y = -vect.y;
         }
