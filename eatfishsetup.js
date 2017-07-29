@@ -2,7 +2,7 @@
 // Thank you for such an easy to understand explanation on ECS.
 
 var ECS = {};
-var canvas = document.getElementById("display");
+var canvas = document.getElementById("eatfishdisplay");
 canvas.width = 1000;
 canvas.height = 500;
 
