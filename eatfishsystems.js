@@ -145,7 +145,7 @@ ECS.Systems.AI = function systemAI(entities) {
             if (eid == eid2){
                 continue;
             }
-            var distance = entityDistance(entity, entities[eid2]);
+            var distance = entityDistance(entity, entities[eid2]) - entity.components.size.value - entities[eid2].components.size.value;
             if (closestEnt === undefined) {
                 closestEnt = [distance, entities[eid2]];
                 continue;
