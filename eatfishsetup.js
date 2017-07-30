@@ -13,10 +13,10 @@ document.getElementById("Shorter").onclick = function() {
     canvas.height -= 150;
 }
 document.getElementById("Wider").onclick = function() {
-    canvas.width += 150;
+    canvas.width += 300;
 }
 document.getElementById("Thinner").onclick = function() {
-    canvas.width -= 150;
+    canvas.width -= 300;
 }
 
 function updatePagePlayerSpeed() {
