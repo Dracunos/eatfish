@@ -74,6 +74,7 @@ function startGame() {
     ECS.Entity.prototype.idNum = 0;
     ECS.Entity.prototype._count = 0;
     screenSize = 1;
+    screenSizeWanted = 1;
     var entity = new ECS.Entity();
     entity.addComponent(new ECS.Components.Size(20));
     entity.addComponent(new ECS.Components.Color());

@@ -1,6 +1,7 @@
 var context = canvas.getContext("2d");
 ECS.Systems = {};
 var screenSize = 1;
+var screenSizeWanted = 1;
 
 function clearCanvas() {
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -14,8 +15,16 @@ ECS.Systems.Draw = function systemDraw(entities) {
     for (var eid in entities) {
         var entity = entities[eid];
         if (hasComponent(entity, 'playerControl') &&
-            entity.components.size.value * screenSize > canvas.height / 8) {
-            screenSize *= 0.75
+            entity.components.size.value * screenSizeWanted > canvas.height / 8) {
+            screenSizeWanted *= 0.75
+        }
+        var transitionSpeed = 0.00007;
+        if (Math.abs(screenSize - screenSizeWanted) < transitionSpeed) {
+            screenSize = screenSizeWanted;
+        } else if (screenSize > screenSizeWanted) {
+            screenSize -= transitionSpeed;
+        } else if (screenSize < screenSizeWanted) {
+            screenSize += transitionSpeed;
         }
         context.fillStyle = entity.components.color.value;
         context.beginPath();
@@ -170,11 +179,11 @@ ECS.Systems.AI = function systemAI(entities) {
         }
         var vect;
         if (entity.components.size.value > closestEnt[1].components.size.value) {
-            vect = getVector(entity.components.position, closestEnt[1].components.position, 1.5 * enemySpeed / screenSize);
+            vect = getVector(entity.components.position, closestEnt[1].components.position, 1.5 * enemySpeed);
             entity.components.vector.x = vect.x;
             entity.components.vector.y = vect.y;
         } else {
-            vect = getVector(entity.components.position, closestEnt[1].components.position, 2 * enemySpeed / screenSize);
+            vect = getVector(entity.components.position, closestEnt[1].components.position, 2 * enemySpeed);
             entity.components.vector.x = -vect.x;
             entity.components.vector.y = -vect.y;
         }
