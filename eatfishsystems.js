@@ -14,9 +14,12 @@ ECS.Systems.Draw = function systemDraw(entities) {
     
     for (var eid in entities) {
         var entity = entities[eid];
-        if (hasComponent(entity, 'playerControl') &&
-            entity.components.size.value * screenSizeWanted > canvas.height / 8) {
-            screenSizeWanted *= 0.75
+        if (hasComponent(entity, 'playerControl')) {
+            if (entity.components.size.value * screenSizeWanted > canvas.height / 12) {
+                screenSizeWanted *= 0.8;
+            } else if (entity.components.size.value * screenSizeWanted < canvas.height / 20) {
+                screenSizeWanted *= 1.2;
+            }
         }
         var transitionSpeed = 0.00007;
         if (Math.abs(screenSize - screenSizeWanted) < transitionSpeed) {
