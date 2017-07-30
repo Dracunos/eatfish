@@ -13,6 +13,10 @@ ECS.Systems.Draw = function systemDraw(entities) {
     
     for (var eid in entities) {
         var entity = entities[eid];
+        if (hasComponent(entity, 'playerControl') &&
+            entity.components.size.value * screenSize > canvas.height / 8) {
+            screenSize *= 0.75
+        }
         context.fillStyle = entity.components.color.value;
         context.beginPath();
         context.arc((entity.components.position.x - xOffset) * screenSize - canvas.width * (screenSize - 1) / 2,
@@ -45,7 +49,10 @@ function collide(ent1, ent2) {
         }
     }
     smaller.addComponent(new ECS.Components.Dead());
-    larger.components.size.value += smaller.components.size.value * 0.15;
+    var r1sq = Math.pow(larger.components.size.value, 2);
+    var r2sq = Math.pow(smaller.components.size.value, 2);
+    var newArea = (22 / 7 * r1sq) + ((22 / 7 * r2sq) / 4); // Grows by 1/3 area
+    larger.components.size.value = Math.sqrt(newArea * 7 / 22);
 }
 
 ECS.Systems.Move = function systemMove(entities) {

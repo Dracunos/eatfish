@@ -57,7 +57,7 @@ function checkVal(val, funcName) {
 
 var gameLevel = {
     centerPos: {x: 0, y: 0},
-    levelSize: {width: 3000, height: 2500}
+    levelSize: {width: 6000, height: 4000}
 };
 
 gameLevel.updateCenter = function updateCenter(pos) {
@@ -67,12 +67,16 @@ gameLevel.updateCenter = function updateCenter(pos) {
     var bottomBound = this.levelSize.height - canvas.height / (2 * screenSize);
     this.centerPos.x = pos.x;
     this.centerPos.y = pos.y;
-    if (pos.x < leftBound) {
+    if (canvas.width > this.levelSize.width * screenSize) {
+        this.centerPos.x = this.levelSize.width / 2;
+    } else if (pos.x < leftBound) {
         this.centerPos.x = leftBound;
     } else if (pos.x > rightBound) {
         this.centerPos.x = rightBound;
     }
-    if (pos.y < topBound) {
+    if (canvas.height > this.levelSize.height * screenSize) {
+        this.centerPos.y = this.levelSize.height / 2;
+    } else if (pos.y < topBound) {
         this.centerPos.y = topBound;
     } else if (pos.y > bottomBound) {
         this.centerPos.y = bottomBound;

@@ -73,6 +73,7 @@ function startGame() {
     ECS.Entities = {};
     ECS.Entity.prototype.idNum = 0;
     ECS.Entity.prototype._count = 0;
+    screenSize = 1;
     var entity = new ECS.Entity();
     entity.addComponent(new ECS.Components.Size(20));
     entity.addComponent(new ECS.Components.Color());
@@ -82,8 +83,8 @@ function startGame() {
     gameLevel.updateCenter(entity.components.position);
     ECS.Entities[entity.id] = entity;
     
-    spawnEnemies(80, 8, 16);
-    spawnEnemies(50, 24, 56);
+    spawnEnemies(200, 8, 16);
+    spawnEnemies(160, 24, 56);
     
     gameLoop();
 }
