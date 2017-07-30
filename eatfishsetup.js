@@ -19,7 +19,11 @@ document.getElementById("Thinner").onclick = function() {
     canvas.width -= 150;
 }
 
-var maxPlayerSpeed = 2.5;
+function updatePagePlayerSpeed() {
+    document.getElementById("playerSpeed").innerText = maxPlayerSpeed * 10;
+}
+var maxPlayerSpeed = 3.5;
+updatePagePlayerSpeed();
 var enemySpeed = 1;
 document.onkeypress = function(e) {
     var evtobj=window.event? event : e //distinguish between IE's explicit event object (window.event) and Firefox's implicit.
@@ -29,14 +33,14 @@ document.onkeypress = function(e) {
     }
     if (unicode == 33) { // Page Up increases player speed
         maxPlayerSpeed += 0.5;
-        document.getElementById("playerSpeed").innerText = maxPlayerSpeed * 10;
+        updatePagePlayerSpeed();
     }
     if (unicode == 34) { // Page Down decreases player speed
         maxPlayerSpeed -= 0.5;
         if (maxPlayerSpeed < 0) {
             maxPlayerSpeed = 0;
         }
-        document.getElementById("playerSpeed").innerText = maxPlayerSpeed * 10;
+        updatePagePlayerSpeed();
     }
     if (unicode == 36) { // Home increases enemy speed
         enemySpeed += 0.05;

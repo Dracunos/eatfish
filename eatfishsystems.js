@@ -107,16 +107,16 @@ ECS.Systems.Input = function systemInput(entities) {
             continue;
         }
         if (keys && keys[37] && vector.x > -maxPlayerSpeed) { // Left
-            vector.x -= maxPlayerSpeed / 2.5;
+            vector.x -= maxPlayerSpeed / 2.5 / screenSize;
         }
         if (keys && keys[39] && vector.x < maxPlayerSpeed) { // Right
-            vector.x += maxPlayerSpeed / 2.5;
+            vector.x += maxPlayerSpeed / 2.5 / screenSize;
         }
         if (keys && keys[38] && vector.y > -maxPlayerSpeed) { // Up
-            vector.y -= maxPlayerSpeed / 2.5;
+            vector.y -= maxPlayerSpeed / 2.5 / screenSize;
         }
         if (keys && keys[40] && vector.y < maxPlayerSpeed) { // Down
-            vector.y += maxPlayerSpeed / 2.5;
+            vector.y += maxPlayerSpeed / 2.5 / screenSize;
         }
     }
 };
@@ -170,11 +170,11 @@ ECS.Systems.AI = function systemAI(entities) {
         }
         var vect;
         if (entity.components.size.value > closestEnt[1].components.size.value) {
-            vect = getVector(entity.components.position, closestEnt[1].components.position, 1.5 * enemySpeed);
+            vect = getVector(entity.components.position, closestEnt[1].components.position, 1.5 * enemySpeed / screenSize);
             entity.components.vector.x = vect.x;
             entity.components.vector.y = vect.y;
         } else {
-            vect = getVector(entity.components.position, closestEnt[1].components.position, 2 * enemySpeed);
+            vect = getVector(entity.components.position, closestEnt[1].components.position, 2 * enemySpeed / screenSize);
             entity.components.vector.x = -vect.x;
             entity.components.vector.y = -vect.y;
         }
