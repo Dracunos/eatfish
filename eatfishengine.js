@@ -42,7 +42,7 @@ function spawnEnemies(number, minSize, maxSize) {
             entity.addComponent(new ECS.Components.Position([entityX, entityY]));
             entity.addComponent(new ECS.Components.Vector([0, 0]));
             for (var eid in ECS.Entities) {
-                if (entityTooClose(ECS.Entities[eid], entity, 15)) {
+                if (entityTooClose(ECS.Entities[eid], entity, 100)) {
                     goodPlacement = false;
                 }
             }
