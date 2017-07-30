@@ -76,7 +76,7 @@ function startGame() {
     screenSize = 1;
     screenSizeWanted = 1;
     var entity = new ECS.Entity();
-    entity.addComponent(new ECS.Components.Size(20));
+    entity.addComponent(new ECS.Components.Size(40));
     entity.addComponent(new ECS.Components.Color());
     entity.addComponent(new ECS.Components.Position([gameLevel.levelSize.width / 2, gameLevel.levelSize.height / 2]));
     entity.addComponent(new ECS.Components.Vector([0, 0]));
@@ -84,8 +84,8 @@ function startGame() {
     gameLevel.updateCenter(entity.components.position);
     ECS.Entities[entity.id] = entity;
     
-    spawnEnemies(200, 8, 16);
-    spawnEnemies(160, 24, 56);
+    spawnEnemies(150, 20, 35);
+    spawnEnemies(100, 45, 150);
     
     gameLoop();
 }
