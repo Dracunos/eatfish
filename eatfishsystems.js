@@ -1,5 +1,6 @@
 var context = canvas.getContext("2d");
 ECS.Systems = {};
+var screenSize = 1;
 
 function clearCanvas() {
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -14,9 +15,9 @@ ECS.Systems.Draw = function systemDraw(entities) {
         var entity = entities[eid];
         context.fillStyle = entity.components.color.value;
         context.beginPath();
-        context.arc(entity.components.position.x - xOffset,
-                entity.components.position.y - yOffset,
-                entity.components.size.value,
+        context.arc((entity.components.position.x - xOffset) * screenSize - canvas.width * (screenSize - 1) / 2,
+                (entity.components.position.y - yOffset) * screenSize - canvas.height * (screenSize - 1) / 2,
+                (entity.components.size.value) * screenSize,
                 0,2*Math.PI);
         context.fill();
     }

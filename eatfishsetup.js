@@ -61,10 +61,10 @@ var gameLevel = {
 };
 
 gameLevel.updateCenter = function updateCenter(pos) {
-    var leftBound = canvas.width / 2;
-    var rightBound = this.levelSize.width - canvas.width / 2;
-    var topBound = canvas.height / 2;
-    var bottomBound = this.levelSize.height - canvas.height / 2;
+    var leftBound = canvas.width / (2 * screenSize);
+    var rightBound = this.levelSize.width - canvas.width / (2 * screenSize);
+    var topBound = canvas.height / (2 * screenSize);
+    var bottomBound = this.levelSize.height - canvas.height / (2 * screenSize);
     this.centerPos.x = pos.x;
     this.centerPos.y = pos.y;
     if (pos.x < leftBound) {
