@@ -182,7 +182,7 @@ ECS.Systems.AI = function systemAI(entities) {
         }
         var vect;
         if (entity.components.size.value > closestEnt[1].components.size.value) {
-            vect = getVector(entity.components.position, closestEnt[1].components.position, 1.5 * enemySpeed);
+            vect = getVector(entity.components.position, closestEnt[1].components.position, 1.75 * enemySpeed);
             entity.components.vector.x = vect.x;
             entity.components.vector.y = vect.y;
         } else {
