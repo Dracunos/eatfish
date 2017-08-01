@@ -19,40 +19,16 @@ document.getElementById("Thinner").onclick = function() {
     canvas.width -= 300;
 }
 
+var maxPlayerSpeed = 3.5;
 function updatePagePlayerSpeed() {
     document.getElementById("playerSpeed").innerText = maxPlayerSpeed * 10;
+    document.getElementById("playerSpeed").textContent = maxPlayerSpeed * 10;
 }
-var maxPlayerSpeed = 3.5;
 updatePagePlayerSpeed();
 var enemySpeed = 1;
-document.onkeypress = function(e) {
-    var evtobj=window.event? event : e //distinguish between IE's explicit event object (window.event) and Firefox's implicit.
-    var unicode=evtobj.charCode? evtobj.charCode : evtobj.keyCode
-    if (unicode >= 33 && unicode <= 36) {
-        e.preventDefault();
-    }
-    if (unicode == 33) { // Page Up increases player speed
-        maxPlayerSpeed += 0.5;
-        updatePagePlayerSpeed();
-    }
-    if (unicode == 34) { // Page Down decreases player speed
-        maxPlayerSpeed -= 0.5;
-        if (maxPlayerSpeed < 0) {
-            maxPlayerSpeed = 0;
-        }
-        updatePagePlayerSpeed();
-    }
-    if (unicode == 36) { // Home increases enemy speed
-        enemySpeed += 0.05;
-        document.getElementById("enemySpeed").innerText = enemySpeed.toFixed(2);
-    }
-    if (unicode == 35) { // End decreases enemy speed
-        enemySpeed -= 0.05;
-        if (enemySpeed < 0) {
-            enemySpeed = 0;
-        }
-        document.getElementById("enemySpeed").innerText = enemySpeed.toFixed(2);
-    }
+function updatePageEnemySpeed() {
+    document.getElementById("enemySpeed").innerText = enemySpeed.toFixed(2);
+    document.getElementById("enemySpeed").textContent = enemySpeed.toFixed(2);
 }
 
 function checkVal(val, funcName) {
@@ -86,3 +62,31 @@ gameLevel.updateCenter = function updateCenter(pos) {
         this.centerPos.y = bottomBound;
     }
 };
+
+
+
+// requestAnimationFrame for IE polyfill (https://www.paulirish.com/2011/requestanimationframe-for-smart-animating/)
+(function() {
+    var lastTime = 0;
+    var vendors = ['webkit', 'moz'];
+    for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+        window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+        window.cancelAnimationFrame =
+          window[vendors[x]+'CancelAnimationFrame'] || window[vendors[x]+'CancelRequestAnimationFrame'];
+    }
+
+    if (!window.requestAnimationFrame)
+        window.requestAnimationFrame = function(callback, element) {
+            var currTime = new Date().getTime();
+            var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+            var id = window.setTimeout(function() { callback(currTime + timeToCall); },
+              timeToCall);
+            lastTime = currTime + timeToCall;
+            return id;
+        };
+
+    if (!window.cancelAnimationFrame)
+        window.cancelAnimationFrame = function(id) {
+            clearTimeout(id);
+        };
+}());

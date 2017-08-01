@@ -134,17 +134,93 @@ ECS.Systems.Input = function systemInput(entities) {
 };
 
 ECS.Systems.Input.keys = [];
-
 window.addEventListener('keydown', function (e) {
-    if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+    var evnt;
+    if (window.event) {
+        evnt = event;
+    } else {
+        evnt = e;
+    }
+    var keyCode;
+    if (evnt.charCode) {
+        keyCode = evnt.charCode;
+    } else {
+        keyCode = evnt.keyCode;
+    }
+    if(keyCode >= 32 && keyCode <= 40) {
         e.preventDefault();
     }
+    if (keyCode == 33) { // Page Up increases player speed
+        maxPlayerSpeed += 0.5;
+        updatePagePlayerSpeed();
+    }
+    if (keyCode == 34) { // Page Down decreases player speed
+        maxPlayerSpeed -= 0.5;
+        if (maxPlayerSpeed < 0) {
+            maxPlayerSpeed = 0;
+        }
+        updatePagePlayerSpeed();
+    }
+    if (keyCode == 36) { // Home increases enemy speed
+        enemySpeed += 0.05;
+        updatePageEnemySpeed();
+    }
+    if (keyCode == 35) { // End decreases enemy speed
+        enemySpeed -= 0.05;
+        if (enemySpeed < 0) {
+            enemySpeed = 0;
+        }
+        updatePageEnemySpeed();
+    }
     ECS.Systems.Input.keys = (ECS.Systems.Input.keys || []);
-    ECS.Systems.Input.keys[e.keyCode] = (e.type == "keydown");
+    ECS.Systems.Input.keys[keyCode] = (e.type == "keydown");
 });
 window.addEventListener('keyup', function (e) {
-    ECS.Systems.Input.keys[e.keyCode] = (e.type == "keydown");            
+    var evnt;
+    if (window.event) {
+        evnt = event;
+    } else {
+        evnt = e;
+    }
+    var keyCode;
+    if (evnt.charCode) {
+        keyCode = evnt.charCode;
+    } else {
+        keyCode = evnt.keyCode;
+    }
+    ECS.Systems.Input.keys[keyCode] = (e.type == "keydown");            
 });
+
+document.onkeypress = function(e) {
+    console.log(e);
+    var evtobj=window.event? event : e //distinguish between IE's explicit event object (window.event) and Firefox's implicit.
+    var unicode=evtobj.charCode? evtobj.charCode : evtobj.keyCode
+    if (unicode >= 33 && unicode <= 36) {
+        e.preventDefault();
+    }
+    if (unicode == 33) { // Page Up increases player speed
+        maxPlayerSpeed += 0.5;
+        updatePagePlayerSpeed();
+    }
+    if (unicode == 34) { // Page Down decreases player speed
+        maxPlayerSpeed -= 0.5;
+        if (maxPlayerSpeed < 0) {
+            maxPlayerSpeed = 0;
+        }
+        updatePagePlayerSpeed();
+    }
+    if (unicode == 36) { // Home increases enemy speed
+        enemySpeed += 0.05;
+        document.getElementById("enemySpeed").innerText = enemySpeed.toFixed(2);
+    }
+    if (unicode == 35) { // End decreases enemy speed
+        enemySpeed -= 0.05;
+        if (enemySpeed < 0) {
+            enemySpeed = 0;
+        }
+        document.getElementById("enemySpeed").innerText = enemySpeed.toFixed(2);
+    }
+}
 
 function getVector(posFrom, posTo, vect) {
     var currentVect = checkDistance(posFrom, posTo);
